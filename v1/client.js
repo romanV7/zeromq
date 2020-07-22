@@ -4,8 +4,9 @@ var client = zmq.socket('req')
 
 const obj = {
   type: 'login',
-  email: 'foo@bar.baz',
-  pwd: 'xxx',
+  //email: 'foo@bar.baz',
+  email: 'user@gmail.com',
+  pwd: 'xxxz',
   msg_id: 'yyy'
 }
 
