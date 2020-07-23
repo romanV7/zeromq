@@ -2,8 +2,8 @@ const zmq = require('zeromq')
 const publisher = zmq.socket('pub')
 const server = zmq.socket('rep')
 
-const Users = require('../services/user.service')
 const { isEmpty } = require('../shared/util')
+const Users = require('../services/user.service')
 
 const WRONG_PWD = 'Wrong password'
 const WRONG_FORMAT = 'Not all fiels are supplied or they are empty'

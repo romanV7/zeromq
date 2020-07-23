@@ -1,17 +1,4 @@
-var sqlite = require('sqlite3')
 
-let db = new sqlite.Database('../sample.db');
+const isEmpty = object => Object.values(object).every(x => (x === null || x === ''))
 
-const findAllUsers = callback => {
-  const sql = 'SELECT * FROM users'
-  db.all(sql, (err, result) => callback(err, result))
-}
-
-const findUserByEmail = (email, callback) => {
-  const sql = 'SELECT * FROM users WHERE email = ?';
-  db.get(sql, [email], (err, result) => callback(err, result))
-}
-
-findUserByEmail('qqq', (err, result) => console.log({ result }))
-
-module.exports = { findAllUsers, findUserByEmail }
+module.exports = { isEmpty }
