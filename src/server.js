@@ -12,24 +12,21 @@ const KEYS_NUMBER = 4
 server.on('message', request => {
   server.send('OK')
   const temp = JSON.parse(request.toString())
-  console.log({ temp })
   if (Object.keys(temp).length !== KEYS_NUMBER || isEmpty(temp)) {
     return publisher.send(parseJson({ msg_id: temp.msg_id, status: 'error', error: WRONG_FORMAT }))
   }
   Users.findUserByEmail(temp.email, (err, user) => {
-    console.log({ user })
     if (!user) {
       const result = parseJson({ error: "No such user try again" })
       return publisher.send(result)
     }
-
     const result = (temp.type === 'login' && user.passw === temp.pwd)
     ? parseJson({ msg_id: temp.msg_id, user_id: user.user_id, status: 'ok'})
     : (user.passw !== temp.pwd)
     ? parseJson({ msg_id: temp.msg_id, status: 'error', error: WRONG_PWD })
     : parseJson({ msg_id: temp.msg_id, status: 'error', error: WRONG_FORMAT })
     return publisher.send(result)
-})
+  })
 })
 
 server.bind('tcp://*:8888', err => {

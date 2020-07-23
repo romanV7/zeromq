@@ -15,7 +15,4 @@ const findUserByEmail = (email, callback) => {
   db.get(sql, [email], (err, result) => callback(err, result))
 }
 
-findAllUsers((err, result) => console.log({ result }))
-findUserByEmail('user@gmail.com', (err, res) => console.log({ res }))
-
 module.exports = { findAllUsers, findUserByEmail }

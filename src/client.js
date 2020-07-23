@@ -6,20 +6,12 @@ const inquirer = require('inquirer')
 const questions = require('../questions')
 const { parseJson } = require('./shared/util')
 
-// const obj = {
-//   type: 'login',
-//   //email: 'foo@bar.baz',
-//   email: 'user@gmail.com',
-//   pwd: 'xxxz',
-//   msg_id: 'yyy'
-// }
-
+// example input
 const obj = {
-  type: '',
-  //email: 'foo@bar.baz',
-  email: '',
-  pwd: '',
-  msg_id: ''
+  type: 'login',
+  email: 'user@gmail.com',
+  pwd: 'xxxz',
+  msg_id: 'yyy'
 }
 
 const buf = parseJson(obj)
