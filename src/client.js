@@ -4,6 +4,7 @@ const client = zmq.socket('req')
 const inquirer = require('inquirer')
 
 const questions = require('../questions')
+const { parseJson } = require('./shared/util')
 
 // const obj = {
 //   type: 'login',
@@ -21,9 +22,9 @@ const obj = {
   msg_id: ''
 }
 
-const buf = Buffer.from(JSON.stringify(obj))
+const buf = parseJson(obj)
 
-subscriber.on('message', function(reply) {
+subscriber.on('message', reply => {
   const response = JSON.parse(reply.toString())
   console.log('Received message: ', response)
   if (response.status === 'ok') {
@@ -41,7 +42,7 @@ subscriber.on('message', function(reply) {
       pwd: answers.password,
       msg_id: response.msg_id || 'yyy'
     }
-    client.send(Buffer.from(JSON.stringify(object)))
+    client.send(parseJson(object))
   })
 
 })
