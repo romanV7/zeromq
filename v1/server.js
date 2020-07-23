@@ -4,6 +4,8 @@ var server = zmq.socket('rep')
 
 const Users = require('../shared/util')
 
+const isEmpty = object => Object.values(object).every(x => (x === null || x === ''))
+
 const WRONG_PWD = 'Wrong password'
 const WRONG_FORMAT = 'Not all fiels are supplied or they are empty'
 const KEYS_NUMBER = 4
@@ -12,7 +14,7 @@ server.on('message', function(request) {
     server.send('OK')
     const temp = JSON.parse(request.toString())
     console.log({ temp })
-    if (Object.keys(temp).length !== KEYS_NUMBER) {
+    if (Object.keys(temp).length !== KEYS_NUMBER || isEmpty(temp)) {
       return publisher.send(Buffer.from(JSON.stringify({ msg_id: temp.msg_id, status: 'error', error: WRONG_FORMAT })))
     }
     Users.findUserByEmail(temp.email, (err, user) => {

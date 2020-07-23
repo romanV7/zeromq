@@ -14,8 +14,8 @@ var inquirer = require('inquirer');
 const obj = {
   type: '',
   //email: 'foo@bar.baz',
-  email: 'user@gmail.com',
-  pwd: 'xxx',
+  email: '',
+  pwd: '',
   msg_id: ''
 }
 
