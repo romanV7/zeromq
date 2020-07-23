@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node src/server.js",
+    "client": "node src/client.js",
+    "db": "node src/sqlite.js"
   },
   "keywords": [],
   "author": "",
