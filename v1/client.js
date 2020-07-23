@@ -1,7 +1,9 @@
-var zmq = require('zeromq')
-var subscriber = zmq.socket('sub')
-var client = zmq.socket('req')
-var inquirer = require('inquirer');
+const zmq = require('zeromq')
+const subscriber = zmq.socket('sub')
+const client = zmq.socket('req')
+const inquirer = require('inquirer')
+
+const questions = require('../questions')
 
 // const obj = {
 //   type: 'login',
@@ -19,31 +21,18 @@ const obj = {
   msg_id: ''
 }
 
-var buf = Buffer.from(JSON.stringify(obj));
+const buf = Buffer.from(JSON.stringify(obj))
 
 subscriber.on('message', function(reply) {
   const response = JSON.parse(reply.toString())
-  console.log('Received message: ', response);
+  console.log('Received message: ', response)
   if (response.status === 'ok') {
     console.log('ok')
-    process.exit(0);
+    process.exit(0)
   }
   if (response.status === 'error') {
     console.log(response.error)
   }
-
-  var questions = [
-    {
-      type: 'input',
-      name: 'email',
-      message: "What's your email ?",
-    },
-    {
-      type: 'input',
-      name: 'password',
-      message: "What's your password ?",
-    },
-  ];
 
   inquirer.prompt(questions).then((answers) => {
     const object = {
@@ -53,7 +42,7 @@ subscriber.on('message', function(reply) {
       msg_id: response.msg_id || 'yyy'
     }
     client.send(Buffer.from(JSON.stringify(object)))
-  });
+  })
 
 })
 
@@ -63,7 +52,7 @@ subscriber.subscribe('')
 client.connect('tcp://localhost:8888')
 client.send(buf)
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
   subscriber.close()
   client.close()
 })

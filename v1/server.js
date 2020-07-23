@@ -1,16 +1,15 @@
-var zmq = require('zeromq')
-var publisher = zmq.socket('pub')
-var server = zmq.socket('rep')
+const zmq = require('zeromq')
+const publisher = zmq.socket('pub')
+const server = zmq.socket('rep')
 
-const Users = require('../shared/util')
-
-const isEmpty = object => Object.values(object).every(x => (x === null || x === ''))
+const Users = require('../services/user.service')
+const { isEmpty } = require('../shared/util')
 
 const WRONG_PWD = 'Wrong password'
 const WRONG_FORMAT = 'Not all fiels are supplied or they are empty'
 const KEYS_NUMBER = 4
 
-server.on('message', function(request) {
+server.on('message', request => {
     server.send('OK')
     const temp = JSON.parse(request.toString())
     console.log({ temp })
@@ -33,21 +32,17 @@ server.on('message', function(request) {
   })
 })
 
-server.bind('tcp://*:8888', function(err) {
-  if(err)
-    console.log(err)
-  else
-    console.log('Listening on 8888...')
+server.bind('tcp://*:8888', err => {
+  if (err) console.log(err)
+  else console.log('Listening on 8888...')
 })
 
-publisher.bind('tcp://*:8688', function(err) {
-  if(err)
-    console.log(err)
-  else
-    console.log('Listening on 8688...')
+publisher.bind('tcp://*:8688', err => {
+  if (err) console.log(err)
+  else console.log('Listening on 8688...')
 })
 
-process.on('SIGINT', function() {
+process.on('SIGINT', () => {
   publisher.close()
   server.close()
 })
