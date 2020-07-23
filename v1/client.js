@@ -3,12 +3,20 @@ var subscriber = zmq.socket('sub')
 var client = zmq.socket('req')
 var inquirer = require('inquirer');
 
+// const obj = {
+//   type: 'login',
+//   //email: 'foo@bar.baz',
+//   email: 'user@gmail.com',
+//   pwd: 'xxxz',
+//   msg_id: 'yyy'
+// }
+
 const obj = {
-  type: 'login',
+  type: '',
   //email: 'foo@bar.baz',
   email: 'user@gmail.com',
-  pwd: 'xxxz',
-  msg_id: 'yyy'
+  pwd: 'xxx',
+  msg_id: ''
 }
 
 var buf = Buffer.from(JSON.stringify(obj));
@@ -42,7 +50,7 @@ subscriber.on('message', function(reply) {
       type: 'login',
       email: answers.email,
       pwd: answers.password,
-      msg_id: 'yyy'
+      msg_id: response.msg_id || 'yyy'
     }
     client.send(Buffer.from(JSON.stringify(object)))
   });

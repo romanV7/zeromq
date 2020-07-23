@@ -6,17 +6,22 @@ const Users = require('../shared/util')
 
 const WRONG_PWD = 'Wrong password'
 const WRONG_FORMAT = 'Not all fiels are supplied or they are empty'
+const KEYS_NUMBER = 4
 
 server.on('message', function(request) {
     server.send('OK')
     const temp = JSON.parse(request.toString())
     console.log({ temp })
+    if (Object.keys(temp).length !== KEYS_NUMBER) {
+      return publisher.send(Buffer.from(JSON.stringify({ msg_id: temp.msg_id, status: 'error', error: WRONG_FORMAT })))
+    }
     Users.findUserByEmail(temp.email, (err, user) => {
       console.log({ user })
       if (!user) {
         const result = Buffer.from(JSON.stringify({ error: "No such user try again" }))
         return publisher.send(result)
       }
+
       const result = (temp.type === 'login' && user.passw === temp.pwd)
       ? Buffer.from(JSON.stringify({ msg_id: temp.msg_id, user_id: user.user_id, status: 'ok'}))
       : (user.passw !== temp.pwd)
