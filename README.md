@@ -12,7 +12,7 @@
 ## Notice:
 - use `node version v8.17.0` to run a project
 - first create db (when loading finishes, you can start server and client to communicate)
-- open to terminals for a better view
+- open two terminals for a better view
 
 ## What I've changed
 - `server ( rep, sub messaging patterns )`
